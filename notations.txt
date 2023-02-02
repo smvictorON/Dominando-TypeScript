@@ -1,0 +1,90 @@
+TypeScript
+
+Criador: Anders HejlsBerg (também criou o C# e Delphi)
+Ano Criação: 2012
+Compilador: TSC (TypeScript Compiler)
+
+- Tecnicamente typescript é um superset mas também pode ser chamado de linguagem.
+- TypeScript é mantido pela Microsoft mas tem código aberto.
+- TS = JS + tipagem + ferramentas.
+
+- Arquivo tsconfig.json para colocar as configurações de compilação dos arquivos .ts, depois disso basta executar no terminal bash o comando tsc.
+O comando tsc —init cria uma arquivo tsconfig.json padrão para o projeto.
+
+- Para acessar o DOM pelo ts basta adicionar “DOM” no atributo libs: [] do tsconfig.json.
+
+- O comando tsc —-watch faz com que não precise compilar toda vez que modificar o arquivo.
+
+- Se voce declarar uma variável do tipo number e tentar atribuir uma string “4000” para ela, o ts vai retornar um erro, a maneira correta seria usando a classe Number(“4000”) ou colocando o sinal de + na frente no numero string: Ex: +”4000”.
+
+- Adicionando a letra n após um numero Ex: 50n, é a maneira correta de declarar um number to tipo bigint.
+
+- Usando a classe Boolean para converter valores para boolean, o valor “0” é interpretado como true, porque é uma string com valor, diferentemente do 0.
+
+- Um tipo de array é o tuple, que nada mais é do que um array com tipos das posições pré definidas Ex: [string, number, object], então só poderá ser atribuído um array que obedeça esse padrão, a vantagem é usar em arrays que voce ja sabia os tipos dos dados que irão entrar, assim, quando entrar um dado de um valor não mapeado ele mostrará direto o elemento e não o erro no array.
+
+- O tipo enum se não é atribuído um valor para os itens, ele atribui começando de 0, senão, atribua somente o primeiro e ele continuará a ordem numérica, o enum tbm permite atribuição de strings, e o acesso dele pode ser feito através do nome do enum e o index Ex: permissions[0] ou permissions[“USER”]
+
+- O tipo null geralmente é usado quando vamos acessar um elemento do DOM que quando não é achado retorna null, ou atribuindo null a alguma variável para limpa-la, Ex: meuVar: string | null, após usar a string basta atribuir null para limpar.
+
+- O tipo undefined pode ser usado para declaração de variáveis com o union type Ex: meuVar: string | undefined, assim ela fica indefinida até receber um valor.
+
+- Se eu não especificar o tipo de uma variável, ela ficará como any, que não é recomendado dado que a premissa do ts é tipar as variáveis.
+
+- O tipo unknown tem um funcionamento parecido com o any, porém após uma variável ser atribuída como unknown, mesmo ela recebendo uma string ou number, uma variável string ou number nao vai conseguir receber a variável unknown, diferentemente de uma var any.
+
+- Se a função não pode retornar nada, deve ser declarada com o void Ex: const myFunc = (): void => {}, pois se não deixar declaro o retorno void, se for atribuído um return ele vai permitir.
+
+- O tipo never geralmente é usado para funções que nao retornar nada, a não sei um erro Ex: myFunc = (): never => {}.
+
+- Se voce declarar uma var unknown e atribuir uma string, caso tente atribuir ela em uma array de string ou em uma outra var string, o ts não vai permitir, então voce pode forçar um casting de 2 maneiras Ex: myVarString = <string>myVarUnknown ou Ex: myVarString = (myVarUnknown as string), isso é chamado de afirmação de tipo.
+
+- Rest parameter ajudar a receber muitos valores iguais como parametros de uma função sem precisar declarar um por um, Ex: (...meses: number[]) é diferente de (meses: number[]) pois deste segundo modo voce deve passar um vetor e com o spread voce pode passars varios numeros que ele vai colocar em um vetor.
+
+- A diferença entre declarar um objeto com os campos tipados e a interface é que a interface voce pode usar em outros arquvios, como padrão interfaces é criado com a letra I no começo e a primeira letra da interface maiuscula Ex: IEndereco
+
+- Adicionando readonly em um atributo de uma inferface, após declara-la eu nao posso reatribuir um valor, funciona como se fosse o "const" para variáveis.
+
+- Se eu crio uma classe que extend outra classe e a classe pai tem um construtor, a classe que está herdando precisa receber no proprio construtor os atributos da classe pai, para depois chamar o super() passando os argumento necessários para o contructor da classe pai.
+
+- Se voce nao definir o encapsulamente dos seus atributos ou métodos da sua classe o default é public.
+
+- Quando voce cria um classe filha que nao tem metodo construtor, ele invoca automaticamente o contrutor da classe pai.
+
+- Se voce define um valor padrão para a variável na classe não é necessário criar um metodo construtor.
+
+- É possível declarar um atributo privado com ECMA usando o # Ex: #valor, e esse atributo privado ECMA pode ser definido com o mesmo nome na classe filha tendo um valor inicial diferente da classe pai e mesmo assim cada um obedece seu escopo.
+
+*** Um atributo private TS de uma classe consegue ser entregue mesmo que o TS avise que não é possível ***
+
+*** Um atributo readonly de uma classe consegue ser alterado mesmo que o TS avise que não é possível ***
+
+- Se voce desclara o construtor ja com o encapsulamento, voce nao precisa declarar os atributos fora e nem receber ele com this. dentro do contrutor deixando o codigo bem menor.
+
+- Implementar getters and setters é bom para adicionar alguma verificação para a alteração dos dados ou para a leitura deles.
+
+- Para metódos e atributos estaticos o acesso é atrasde de NomeDaClasse.NomeDoAtributoOuClasse e não com this.
+
+- Polimorfismo é quando voce implementa um método com o mesmo nome na classe filha que ja exista na classe pai.
+
+- Uma class abstrata nao pode ser implementada mas pode ser extendida para ser usada em outras classes, assim como seus metodos podem ser abstratos.
+
+*** Aula 46~50 mais profundas ***
+
+- É recomendado separar classes, functions e interfaces em pastas diferentes para organização.
+
+- Usando namespaces é necessário colocar uma referencia de onde está o arquivo com a tag <reference path=""/> e executar o comando tsc com a flag --outfile e definir o local do arquivo de saida Ex: tsc arquivo.ts --outfile outputfolder/arquivo.js, para que assim o ts consiga ser transpilado para js corretamente.
+
+- Mixin é uma tecnica para herdar de mais de uma classe diferente com ts, existe já uma função pronta no site do ts chamada applymixins.
+
+- Generics seria como colocar um tipo proprio de dado em um tipo/funçao/classe que se só poderá trabalhar com esse tipo, podendo ser qualquer coisa, em funções precisa ser definido o tipo dessa forma Ex: function minhaFunc <T>(meuParam: <T>): T {}.
+
+- Decorator como o nome diz é como fazendo um append de uma "Decoração" á uma class, funcão, atributo, parametros, então toda vez que alguma dessas possibilidades for instaciada o decorator vai ser executado, angular ja utiliza decorators e sua chamada é feita colocando assinatura deste modo: @seuDecorator.
+
+- Decorators ainda são experimentais no TS então, para abilitar esse comportamento deve ser colocado ***"experimentalDecorators": true*** no tsconfig.json.
+
+- Decorators podem ser usados como algo em comum entre varios lugares.
+
+*** o comando npm init criar um package.json com algumas confirações para seu projeto ***
+
+- Usando o comando: dir(document.querySelector("#seuId")) no console do navegador, ele vai retornar o elemento e ao final do objeto no prototype vai estar descrito qual é o tipo do elemento Ex: HTMLTimeElement
